@@ -1,0 +1,17 @@
+{% extends "maket.html" %}
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block content %}
+    <a href="/potential">
+        <div class="small-3 columns main-modules-wrapper">
+            <div class="main-modules-wrapper-img">
+                <img src="{{ url_for('static', filename='img/icons/books.png') }}" alt="Потенциальные абитуриенты">
+            </div>
+            <div class="main-modules-wrapper-description">
+                Потенциальные абитуриенты
+            </div>
+        </div>
+    </a>
+{% endblock %}

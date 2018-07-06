@@ -1,0 +1,42 @@
+{% extends "maket.html" %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block breadcrumps %}
+    <ul class="breadcrumbs">
+        <li><a href="/"><i class="fa fa-dashboard"></i>Главная страница</a></li>
+        <li><a href="/potential">Направления</a></li>
+        <li>Технические</li>
+    </ul>
+{% endblock %}
+
+{% block content %}
+    <p>
+        {% for city in cities %}
+            <button class="c-{{ city.city_id }}">{{ city.city }}</button>
+        {% endfor %}
+        <button class="c-all">Все элементы</button>
+    </p>
+    <table class="unstriped">
+        <thead>
+            <tr>
+                <th>ФИО</th>
+                <th width="150">Связаться</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for abitur in abiturs %}
+            <tr class="f-{{ abitur.city_id }} down">
+                <td>{{ abitur.last_name }} {{ abitur.first_name }} {{ abitur.middle_name }}</td>
+                <td>
+                    <a href="https://vk.com/id{{ abitur.id }}" target="_blank>">
+                        <img src="{{ url_for('static', filename='img/icons/vk.png') }}" alt="vk" width="40px">
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

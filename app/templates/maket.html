@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, width=device-width">
+
+    <title>{% block title %}{% endblock %}</title>
+
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }} ">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/f.css') }} ">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/foundation.min.css') }} ">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }} ">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/jquery.autocomplete.css') }} ">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main-layout.css') }} ">
+
+    </head>
+<body>
+    <div class="overlay" style="display:none;">
+        <div class="preloader cssload-square">
+            <div class="cssload-square-part cssload-square-green"></div>
+            <div class="cssload-square-part cssload-square-pink"></div>
+            <div class="cssload-square-blend"></div>
+        </div>
+    </div>
+
+    <div class="main-wrapper row">
+        <!--header-->
+        <div class="main-header columns">
+            <div class="large-7 medium-7 small-7 columns">
+                <div class="columns">
+                    <div class="large-3 medium-3 small-3 columns">
+                        <a href="/"><img src="https://finance.ugrasu.ru/img/logo.png" class="main-logo" /></a>
+                    </div>
+                    <div class="large-9 medium-9 small-9 columns">
+                        <div class="main-title-text">Югорский государственный университет<br>Потенциальные абитуриенты</div>
+                        <hr class="main-hr">
+                        <div class="main-module-name">
+                             Главная страница
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="large-5 medium-5 small-5 columns">
+                <div class="columns">
+                    <i class="material-icons main-header-icon">account_box</i>
+                    <div class="large-9 medium-9 small-9 columns">
+                        <p class="main-header-paragraph">
+                            <span class="main-header-text">Здравствуйте, гость!</span>
+                        </p>
+                    </div>
+                    <div style="clear:both"></div>
+                </div>
+            </div>
+        </div>
+        <!--content-->
+        <div class="main-content columns">
+            <div class="breadcrumbs-wrapper">
+                {% block breadcrumps %}{% endblock %}
+            </div>
+            <div class="columns">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+        <!--footer-->
+        <div class="main-footer">
+            <div class="large-12 medium-12 small-12">
+                <p class="main-copyright">© 2018 г. Icons made by
+                    <a href="https://www.flaticon.com/authors/popcorns-arts" style="color:#144096;!important;" title="Icon Pond">Icon Pond</a> from
+                    <a href="https://www.flaticon.com/" style="color:#144096;!important;" title="Flaticon">www.flaticon.com</a> is licensed by
+                    <a href="http://creativecommons.org/licenses/by/3.0/" style="color:#144096;!important;" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.js"
+            integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+            crossorigin="anonymous">
+    </script>
+    <script type="text/javascript">
+        var fActive = '';
+
+        function filterCity(city){
+            if(fActive != city){
+                $('.down').filter('.f-'+city).slideDown();
+                $('.down').filter(':not(.f-'+city+')').slideUp();
+                fActive = city;
+            }
+        }
+        {% for city in cities %}
+            $('.c-{{ city.city_id }}').click(function(){ filterCity('{{ city.city_id }}'); });
+        {% endfor %}
+
+        $('.c-all').click(function(){
+            $('.down').slideDown();
+            fActive = 'all';
+        });
+    </script>
+</body>
+</html>

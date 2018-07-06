@@ -1,0 +1,45 @@
+{% extends "maket.html" %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block breadcrumps %}
+    <ul class="breadcrumbs">
+        <li><a href="/"><i class="fa fa-dashboard"></i>Главная страница</a></li>
+        <li>Направления</li>
+    </ul>
+{% endblock %}
+
+{% block content %}
+    <a href="/humanities">
+        <div class="small-4 columns main-modules-wrapper">
+            <div class="main-modules-wrapper-img">
+                <img src="{{ url_for('static', filename='img/icons/open-book.png') }}" alt="Потенциальные абитуриенты">
+            </div>
+            <div class="main-modules-wrapper-description">
+                Гуманитарные направления
+            </div>
+        </div>
+    </a>
+    <a href="/technical">
+        <div class="small-4 columns main-modules-wrapper">
+            <div class="main-modules-wrapper-img">
+                <img src="{{ url_for('static', filename='img/icons/physics.png') }}" alt="Потенциальные абитуриенты">
+            </div>
+            <div class="main-modules-wrapper-description">
+                Технические направления
+            </div>
+        </div>
+    </a>
+    <a href="/natural">
+        <div class="small-4 columns main-modules-wrapper">
+            <div class="main-modules-wrapper-img">
+                <img src="{{ url_for('static', filename='img/icons/test-tubes.png') }}" alt="Потенциальные абитуриенты">
+            </div>
+            <div class="main-modules-wrapper-description">
+                Естественно-научные направления
+            </div>
+        </div>
+    </a>
+{% endblock %}
