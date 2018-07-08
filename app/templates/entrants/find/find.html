@@ -1,0 +1,153 @@
+{% extends "maket.html" %}
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block breadcrumps %}
+    <ul class="breadcrumbs">
+        <li><a href="/"><i class="fa fa-dashboard"></i>Главная страница</a></li>
+        <li>Поиск</li>
+    </ul>
+{% endblock %}
+
+{% block content %}
+    <div class="grid-x grid-padding-x">
+        <div class="cell medium-2 medium-cell-block-y">
+            <h2>Фильтры</h2>
+            <form method="POST" action="{{ url_for('findPost') }}">
+                {% if params==1 %}
+                    <div class="grid-container callout secondary">
+                        <div class="grid-x grid-padding-x">
+                            <div class="cell">
+                                <label>Количество (до 1000)
+                                    <input name="count" type="number" value="20">
+                                </label>
+                            </div>
+                        </div>
+                        <div class="grid-x grid-padding-x">
+                            <div class="cell">
+                                <label>Сортировка
+                                    <select name="sort">
+                                        {% for (key,sorting) in sort.items() %}
+                                            <option value="{{ key }}">{{ sorting }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="grid-x grid-padding-x">
+                            <div class="cell">
+                                <label>Возраст от
+                                    <input name="age_from" type="number" placeholder="17" value="17">
+                                </label>
+                            </div>
+                        </div>
+                        <div class="grid-x grid-padding-x">
+                            <div class="cell">
+                                <label>Возраст до
+                                    <input name="age_to" type="number" placeholder="21" value="21">
+                                </label>
+                            </div>
+                        </div>
+                        <div class="grid-x grid-padding-x">
+                            <div class="cell">
+                                <label>Город
+                                    <select name="city" id="city">
+                                        <option value="1159754">Алтай</option>
+                                        <option value="154">Ханты-Мансийск</option>
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+                        <p>
+                            <input type="submit" class="primary button expanded" value="Найти">
+                        </p>
+                    </div>
+                {% else %}
+                    <div class="grid-container callout secondary">
+                        <div class="grid-x grid-padding-x">
+                            <div class="cell">
+                                <label>Количество (до 1000)
+                                    <input name="count" type="number" value="{{ params.count - 1 }}">
+                                </label>
+                            </div>
+                        </div>
+                        <div class="grid-x grid-padding-x">
+                            <div class="cell">
+                                <label>Сортировка
+                                    <select name="sort">
+                                        {% for (key,sorting) in sort.items() %}
+                                            {% if key == params.sort %}
+                                                <option value="{{ key }}" selected>{{ sorting }}</option>
+                                            {% else %}
+                                                <option value="{{ key }}">{{ sorting }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="grid-x grid-padding-x">
+                            <div class="cell">
+                                <label>Возраст от
+                                    <input name="age_from" type="number" value="{{ params.age_from }}">
+                                </label>
+                            </div>
+                        </div>
+                        <div class="grid-x grid-padding-x">
+                            <div class="cell">
+                                <label>Возраст до
+                                    <input name="age_to" type="number" value="{{ params.age_to }}">
+                                </label>
+                            </div>
+                        </div>
+                        <div class="grid-x grid-padding-x">
+                            <div class="cell">
+                                <label>Город
+                                    <select name="city" id="city">
+                                        <option value="1159754">Алтай</option>
+                                        <option value="154">Ханты-Мансийск</option>
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+                        <p>
+                            <input type="submit" class="primary button expanded" value="Найти">
+                        </p>
+                    </div>
+                {% endif %}
+            </form>
+        </div>
+        <div class="cell medium-10 medium-cell-block-y">
+            <h2>Результат</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Фото</th>
+                        <th>ФИО</th>
+                        <th>Возраст</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if abiturs==1 %}
+                        <tr>
+                            <td>Нет данных</td>
+                        </tr>
+                    {% else %}
+                        {% for (key,abitur) in abiturs.items() %}
+                            {% if key == 'items' %}
+                                {% for abit in abitur %}
+                                    <tr>
+                                        <td><img src="{{ abit.photo_max_orig }}" class="rounded"></td>
+                                        <td>{{ abit.last_name }} {{ abit.first_name }} {{ abit.nickname }}</td>
+                                        <td>{{ abit.age }}</td>
+                                    </tr>
+                                {% endfor %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

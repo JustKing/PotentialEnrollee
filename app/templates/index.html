@@ -4,13 +4,23 @@
 {% endblock %}
 
 {% block content %}
-    <a href="/potential">
+    <a href="{{ url_for('potential') }}">
         <div class="small-3 columns main-modules-wrapper">
             <div class="main-modules-wrapper-img">
                 <img src="{{ url_for('static', filename='img/icons/books.png') }}" alt="Потенциальные абитуриенты">
             </div>
             <div class="main-modules-wrapper-description">
                 Потенциальные абитуриенты
+            </div>
+        </div>
+    </a>
+    <a href="{{ url_for('find') }}">
+        <div class="small-3 columns main-modules-wrapper">
+            <div class="main-modules-wrapper-img">
+                <img src="{{ url_for('static', filename='img/icons/student.png') }}" alt="Поиск абитуриентов">
+            </div>
+            <div class="main-modules-wrapper-description">
+                Поиск абитуриентов
             </div>
         </div>
     </a>

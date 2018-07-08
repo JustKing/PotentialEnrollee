@@ -6,13 +6,13 @@
 
 {% block breadcrumps %}
     <ul class="breadcrumbs">
-        <li><a href="/"><i class="fa fa-dashboard"></i>Главная страница</a></li>
+        <li><a href="{{ url_for('index') }}"><i class="fa fa-dashboard"></i>Главная страница</a></li>
         <li>Направления</li>
     </ul>
 {% endblock %}
 
 {% block content %}
-    <a href="/humanities">
+    <a href="{{ url_for('abitur.view_hum') }}">
         <div class="small-4 columns main-modules-wrapper">
             <div class="main-modules-wrapper-img">
                 <img src="{{ url_for('static', filename='img/icons/open-book.png') }}" alt="Потенциальные абитуриенты">
@@ -22,7 +22,7 @@
             </div>
         </div>
     </a>
-    <a href="/technical">
+    <a href="{{ url_for('abitur.view_tec') }}">
         <div class="small-4 columns main-modules-wrapper">
             <div class="main-modules-wrapper-img">
                 <img src="{{ url_for('static', filename='img/icons/physics.png') }}" alt="Потенциальные абитуриенты">
@@ -32,7 +32,7 @@
             </div>
         </div>
     </a>
-    <a href="/natural">
+    <a href="{{ url_for('abitur.view_nat') }}">
         <div class="small-4 columns main-modules-wrapper">
             <div class="main-modules-wrapper-img">
                 <img src="{{ url_for('static', filename='img/icons/test-tubes.png') }}" alt="Потенциальные абитуриенты">

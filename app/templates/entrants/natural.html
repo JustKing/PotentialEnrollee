@@ -6,8 +6,8 @@
 
 {% block breadcrumps %}
     <ul class="breadcrumbs">
-        <li><a href="/"><i class="fa fa-dashboard"></i>Главная страница</a></li>
-        <li><a href="/potential">Направления</a></li>
+        <li><a href="{{ url_for('index') }}"><i class="fa fa-dashboard"></i>Главная страница</a></li>
+        <li><a href="{{ url_for('potential') }}">Направления</a></li>
         <li>Естественно-научные</li>
     </ul>
 {% endblock %}
