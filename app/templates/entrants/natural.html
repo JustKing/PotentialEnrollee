@@ -13,30 +13,77 @@
 {% endblock %}
 
 {% block content %}
-     <p>
-        {% for city in cities %}
-            <button class="c-{{ city.city_id }}">{{ city.city }}</button>
-        {% endfor %}
-        <button class="c-all">Все элементы</button>
-    </p>
-    <table class="unstriped">
-        <thead>
-            <tr>
-                <th>ФИО</th>
-                <th width="150">Связаться</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for abitur in abiturs %}
-            <tr class="f-{{ abitur.city_id }} down">
-                <td>{{ abitur.last_name }} {{ abitur.first_name }} {{ abitur.middle_name }}</td>
-                <td>
-                    <a href="https://vk.com/id{{ abitur.id }}" target="_blank>">
-                        <img src="{{ url_for('static', filename='img/icons/vk.png') }}" alt="vk" width="40px">
-                    </a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="grid-x grid-padding-x">
+        <div class="cell medium-2 medium-cell-block-y">
+            <h2>Фильтры</h2>
+            <div class="grid-container callout secondary">
+                <div class="grid-x grid-padding-x">
+                    <div class="cell">
+                        <p>
+                            {% for city in cities %}
+                                <button class="c-{{ city.city_id }} primary button expanded">{{ city.city }}</button>
+                            {% endfor %}
+                            <button class="c-all primary button expanded">Все элементы</button>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="cell medium-10 medium-cell-block-y">
+            <table class="unstriped">
+                <thead>
+                <tr>
+                    <th>ФИО</th>
+                    <th width="150">Связаться</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for abitur in abiturs %}
+                    <tr class="f-{{ abitur.city_id }} down">
+                        <td>{{ abitur.last_name }} {{ abitur.first_name }} {{ abitur.middle_name }}</td>
+                        <td>
+                            <a href="https://vk.com/id{{ abitur.id }}" target="_blank>">
+                                <img src="{{ url_for('static', filename='img/icons/vk.png') }}" alt="vk" width="40px">
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+{% block modal %}
+    <div class="reveal" id="modal" data-reveal>
+        <h1>Редактировать</h1>
+        <p class="lead">Комментарий/статус</p>
+        <form method="POST" action="#">
+            <div class="grid-x grid-padding-x">
+                <div class="cell">
+                    <label>Статус
+                        <select name="status" id="status">
+                            {% for stat in status %}
+                                <option value="{{ stat['id'] }}">{{ stat['name'] }}</option>
+                            {% endfor %}
+                        </select>
+                    </label>
+                </div>
+            </div>
+            <div class="grid-x grid-padding-x">
+                <div class="cell">
+                    <label>Комментарий
+                        <textarea name="comment" id="comment"></textarea>
+                    </label>
+                </div>
+            </div>
+            <p>
+                <input type="submit" class="primary button expanded" value="Сохранить">
+            </p>
+        </form>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+
 {% endblock %}

@@ -1,0 +1,36 @@
+{% extends "maket.html" %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block breadcrumps %}
+    <ul class="breadcrumbs">
+        <li><a href="{{ url_for('index') }}"><i class="fa fa-dashboard"></i>Главная страница</a></li>
+        <li>Опасная зона</li>
+    </ul>
+{% endblock %}
+
+{% block content %}
+    <a href="{{ url_for('status') }}">
+        <div class="small-6 columns main-modules-wrapper">
+            <div class="main-modules-wrapper-img">
+                <img src="{{ url_for('static', filename='img/icons/analytics.png') }}" alt="Редактирование статуса">
+            </div>
+            <div class="main-modules-wrapper-description">
+                Редактирование статуса
+            </div>
+        </div>
+    </a>
+    <a href="{{ url_for('abitur.del_abitur') }}">
+        <div class="small-6 columns main-modules-wrapper">
+            <div class="main-modules-wrapper-img">
+                <img src="{{ url_for('static', filename='img/icons/health.png') }}" alt="Удаление абитуриентов">
+            </div>
+            <div class="main-modules-wrapper-description">
+                Удаление абитуриентов
+            </div>
+        </div>
+    </a>
+{% endblock %}
+

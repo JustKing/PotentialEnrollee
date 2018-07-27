@@ -1,0 +1,27 @@
+{% extends "maket.html" %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block breadcrumps %}
+    <ul class="breadcrumbs">
+        <li><a href="{{ url_for('index') }}"><i class="fa fa-dashboard"></i>Главная страница</a></li>
+        <li><a href="{{ url_for('danger') }}"><i class="fa fa-dashboard"></i>Опасно</a></li>
+        <li>Удаление абитуриента</li>
+    </ul>
+{% endblock %}
+
+{% block content %}
+    <a href="#">
+        <div class="small-4 columns main-modules-wrapper">
+            <div class="main-modules-wrapper-img">
+                <img src="{{ url_for('static', filename='img/icons/open-book.png') }}" alt="Удаление абитуриента">
+            </div>
+            <div class="main-modules-wrapper-description">
+                Удаление абитуриента
+            </div>
+        </div>
+    </a>
+{% endblock %}
+

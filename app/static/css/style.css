@@ -4,3 +4,25 @@
     height: 75px;
     border-radius: 50px;
 }
+
+.founded{
+
+    border: none;
+    outline: none;
+}
+
+.count{
+
+    counter-reset: schetchik;
+}
+
+.count tr {
+
+    counter-increment: schetchik;  /* при встрече тега tr счётчик с названием "schetchik" увеличивается на единицу */
+}
+
+.count tr:before {
+
+  content: counter(schetchik);  /* значение счётчика с названием "schetchik" записывается в первую клетку строки */
+  vertical-align: middle;
+}

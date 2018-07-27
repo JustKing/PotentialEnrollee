@@ -15,7 +15,6 @@ class Abitur(db.Model):
     city_id = db.Column(db.String(100))
     bdate = db.Column(db.String(11))
 
-    #abitur_inf = db.relationship('abitur_inf', backref='abitur')
 
     def __str__(self):
         return self.name
