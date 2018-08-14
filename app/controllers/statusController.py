@@ -21,7 +21,7 @@ def getStatus():
     status = None
     try:
         status = db.session. \
-            query(Status.id, Status.name)
+            query(Status.id, Status.name).order_by(Status.id.asc())
     except SQLAlchemyError as e:
         log_error('Error while querying database', exc_info=e)
         flash('There was error while querying database', 'danger')

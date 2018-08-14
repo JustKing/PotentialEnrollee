@@ -83,7 +83,6 @@ def create_app():
 
     @app.route('/find', methods=['POST'])
     def findUsers():
-        print(1)
         params = {
             'sort': int(request.form['sort']),
             'count': int(request.form['count']),
@@ -91,7 +90,6 @@ def create_app():
             'age_to': request.form['age_to'],
             'area': request.form['area']
         }
-        print(1)
         inDbAbiturs = newabitur.getAbitur()
         session = vk.Session(
             access_token='069f2eb61cd727f589778c1a47b891e032a15f66f3c4deb7cfae817e5179325617fc6a2ce94668557c1dc')
@@ -102,8 +100,7 @@ def create_app():
         c = 0
         countFind = len(params['area'])*params['count']
         count = params['count'] - 1
-        id=0
-
+        id = 0
         while countFind>0:
             print(countFind)
             count+=1

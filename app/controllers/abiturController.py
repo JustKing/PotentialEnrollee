@@ -10,6 +10,8 @@ from sqlalchemy.exc import SQLAlchemyError
 
 from app.models.abitur import db, Abitur
 import app.controllers.statusController as st
+from app.models.abitur_inf import Abitur_inf
+from app.models.status import Status
 
 module = Blueprint('abitur', __name__)
 
@@ -46,7 +48,9 @@ def view_tec():
     abitur = None
     try:
         abitur = db.session.\
-            query(Abitur).\
+            query(Abitur.first_name, Abitur.last_name, Abitur.middle_name, Status.name, Abitur.id, Abitur.city, Abitur.city_id).\
+            join(Abitur_inf, Abitur.id == Abitur_inf.id_abitur).\
+            join(Status, Abitur_inf.id_status == Status.id).\
             filter(Abitur.id_side == 2)
     except SQLAlchemyError as e:
         log_error('Error while querying database', exc_info=e)
@@ -90,4 +94,12 @@ def view_nat():
 
 @module.route('/delete')
 def del_abitur():
-    return render_template("entrants/danger/deleteAbitur.html", title='Удаление абитуриента')
+    abiturs = None
+    try:
+        abiturs = db.session. \
+            query(Abitur)
+    except SQLAlchemyError as e:
+        log_error('Error while querying database', exc_info=e)
+        flash('There was error while querying database', 'danger')
+        abort(500)
+    return render_template("entrants/danger/deleteAbitur.html", title='Удаление абитуриента', abiturs=abiturs)

@@ -23,7 +23,6 @@ def saveAbitur(abiturient):
                            first_name = abiturient['first_name'],
                            last_name = abiturient['last_name'],
                            middle_name = abiturient['nickname'])
-
     try:
         db.session.add(abitur)
         try:
@@ -33,7 +32,7 @@ def saveAbitur(abiturient):
     except SQLAlchemyError as e:
         log_error('Error while querying database', exc_info=e)
         flash('There was error while querying database', 'danger')
-        abort(500)
+        return redirect(url_for('find'))
 
 
 def getAbitur():

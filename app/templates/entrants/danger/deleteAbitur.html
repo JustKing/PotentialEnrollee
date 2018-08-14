@@ -13,15 +13,39 @@
 {% endblock %}
 
 {% block content %}
-    <a href="#">
-        <div class="small-4 columns main-modules-wrapper">
-            <div class="main-modules-wrapper-img">
-                <img src="{{ url_for('static', filename='img/icons/open-book.png') }}" alt="Удаление абитуриента">
-            </div>
-            <div class="main-modules-wrapper-description">
-                Удаление абитуриента
+    <div class="grid-x grid-padding-x">
+        <div class="cell medium-2 medium-cell-block-y">
+            <h2>Фильтры</h2>
+            <div class="grid-container callout secondary">
+                <div class="grid-x grid-padding-x">
+                    <div class="cell">
+
+                    </div>
+                </div>
             </div>
         </div>
-    </a>
+        <div class="cell medium-10 medium-cell-block-y">
+            <table class="unstriped">
+                <thead>
+                <tr>
+                    <th>ФИО</th>
+                    <th>Комментарий</th>
+                    <th width="150">Статус</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for abitur in abiturs %}
+                    <tr class="f-{{ abitur.city_id }} down">
+                        <td>{{ abitur.last_name }} {{ abitur.first_name }} {{ abitur.middle_name }}</td>
+                        <td>
+                            <div name="comment" id="comment">{{ abitur.comment }}</div>
+                        </td>
+                        <td>{{ abitur.id_status }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 {% endblock %}
 

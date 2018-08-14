@@ -70,14 +70,14 @@
              <div class="grid-x grid-padding-x">
                 <div class="cell">
                     <label>ID абитуриента
-                        <input id="idAbitur" name="idAbitur" disabled>
+                        <input id="idAbitur" name="idAbitur" hidden>
                     </label>
                 </div>
             </div>
             <div class="grid-x grid-padding-x">
                 <div class="cell">
                     <label>Статус
-                        <select name="status" id="status">
+                        <select name="status">
                             {% for stat in status %}
                                 <option value="{{ stat['id'] }}">{{ stat['name'] }}</option>
                             {% endfor %}
