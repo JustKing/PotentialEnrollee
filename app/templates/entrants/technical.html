@@ -13,53 +13,55 @@
 {% endblock %}
 
 {% block content %}
-    <div class="grid-x grid-padding-x">
-        <div class="cell medium-2 medium-cell-block-y">
-            <h2>Фильтры</h2>
-            <div class="grid-container callout secondary">
-                <div class="grid-x grid-padding-x">
-                    <div class="cell">
-                        <p>
+<div class="grid-x grid-padding-x">
+    <div class="cell medium-2 medium-cell-block-y">
+        <h2>Фильтры</h2>
+        <div class="grid-container callout secondary">
+            <div class="grid-x grid-padding-x">
+                <div class="cell">
+                    <label>Город
+                        <select>
                             {% for city in cities %}
-                                <button class="c-{{ city.city_id }} primary button expanded">{{ city.city }}</button>
+                                <option value="{{ city.city_id }}">{{ city.city }}</option>
                             {% endfor %}
-                            <button class="c-all primary button expanded">Все элементы</button>
-                        </p>
-                    </div>
+                        </select>
+                    </label>
                 </div>
             </div>
         </div>
-        <div class="cell medium-10 medium-cell-block-y">
+    </div>
+
+    <div class="cell medium-10 medium-cell-block-y">
+        <section>
             <table class="unstriped">
                 <thead>
-                <tr>
+                <tr class="no-hide">
                     <th>ФИО</th>
-                    <th>Статус</th>
-                    <th>Комментарий</th>
+                    <th>Город</th>
                     <th width="150">Связаться</th>
-                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
-                {% for abitur in abiturs %}
-                    <tr class="f-{{ abitur.city_id }} down">
-                        <td>{{ abitur.last_name }} {{ abitur.first_name }} {{ abitur.middle_name }}</td>
-                        <td>{{ abitur.status }}</td>
-                        <td>{{ abitur.comment }}</td>
+                    {% for abitur in abiturs %}
+                    <tr data-game="c-{{ abitur.city_id }}" class="down">
                         <td>
-                            <a href="https://vk.com/id{{ abitur.id }}" target="_blank>">
-                                <img src="{{ url_for('static', filename='img/icons/vk.png') }}" alt="vk" width="40px">
-                            </a>
+                            <div>{{ abitur.last_name }} {{ abitur.first_name }} {{ abitur.middle_name }}</div>
                         </td>
                         <td>
-                            <button class="button" data-open="modal" onclick="transfer({{ abitur.id }})" id="edit-{{ abitur.id }}">Редактировать</button>
+                            <div>{{ abitur.city }}</div>
+                        </td>
+                        <td>
+                            <div><a href="https://vk.com/id{{ abitur.id }}" target="_blank>">
+                                <img src="{{ url_for('static', filename='img/icons/vk.png') }}" alt="vk" width="40px">
+                            </a></div>
                         </td>
                     </tr>
-                {% endfor %}
+                    {% endfor %}
                 </tbody>
             </table>
-        </div>
+        </section>
     </div>
+</div>
 {% endblock %}
 
 {% block modal %}

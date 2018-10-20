@@ -95,24 +95,21 @@
     <script src="{{ url_for('static', filename='js/vendor/what-input.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/vendor/foundation.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
-    <script type="text/javascript">
-        var fActive = '';
-
-        function filterCity(city){
-            if(fActive != city){
-                $('.down').filter('.f-'+city).slideDown();
-                $('.down').filter(':not(.f-'+city+')').slideUp();
-                fActive = city;
-            }
-        }
-        {% for city in cities %}
-            $('.c-{{ city.city_id }}').click(function(){ filterCity('{{ city.city_id }}'); });
-        {% endfor %}
-
-        $('.c-all').click(function(){
-            $('.down').slideDown();
-            fActive = 'all';
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script>
+    $(function(){
+        $('select').change(function(){
+            $('section tr').show();
+            $('select').each(function(){
+                var val=this.value
+                if (val!='') {
+                    val='c-'+val;
+                    $('section tr:not([data-game="'+val+'"])').hide();
+                    $('.no-hide').show();
+                };
+            });
         });
+    });
     </script>
     {% block scripts %}{% endblock %}
 </body>
