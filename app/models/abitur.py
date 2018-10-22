@@ -4,6 +4,7 @@ from sqlalchemy import event
 from app.database import db
 
 class Abitur(db.Model):
+    #__tablename__ = 'enrollee'
     __tablename__ = 'abitur'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -15,16 +16,12 @@ class Abitur(db.Model):
     city_id = db.Column(db.String(100))
     bdate = db.Column(db.String(11))
 
-
     def __str__(self):
         return self.name
 
 
 @event.listens_for(Abitur, 'before_insert')
 def event_before_insert(mapper, connection, target):
-    # Здесь будет очень важная бизнес логика
-    # Или нет. На самом деле, старайтесь использовать сигналы только
-    # тогда, когда других, более правильных вариантов не осталось.
     target.slug = slugify(target.name)
 
 

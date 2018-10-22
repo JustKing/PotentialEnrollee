@@ -16,9 +16,6 @@ class Place(db.Model):
 
 @event.listens_for(Place, 'before_insert')
 def event_before_insert(mapper, connection, target):
-    # Здесь будет очень важная бизнес логика
-    # Или нет. На самом деле, старайтесь использовать сигналы только
-    # тогда, когда других, более правильных вариантов не осталось.
     target.slug = slugify(target.name)
 
 

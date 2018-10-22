@@ -9,9 +9,6 @@ from flask import (
 from sqlalchemy.exc import SQLAlchemyError
 
 from app.models.abitur import db, Abitur
-import app.controllers.statusController as st
-from app.models.abitur_inf import Abitur_inf
-from app.models.status import Status
 
 module = Blueprint('abitur', __name__)
 
@@ -49,7 +46,6 @@ def arAbitur(side):
 def view_hum():
     abitur = arAbitur(1)
     city = arCity(1)
-
     return render_template('entrants/humanities.html', abiturs=abitur, cities=city)
 
 @module.route('/technical', methods=['GET'])
@@ -62,16 +58,5 @@ def view_tec():
 def view_nat():
     abitur = arAbitur(3)
     city = arCity(3)
-    return render_template('entrants/natural.html', abiturs=abitur, cities=city)
 
-@module.route('/delete')
-def del_abitur():
-    abiturs = None
-    try:
-        abiturs = db.session. \
-            query(Abitur)
-    except SQLAlchemyError as e:
-        log_error('Error while querying database', exc_info=e)
-        flash('There was error while querying database', 'danger')
-        abort(500)
-    return render_template("entrants/danger/deleteAbitur.html", title='Удаление абитуриента', abiturs=abiturs)
+    return render_template('entrants/natural.html', abiturs=abitur, cities=city)

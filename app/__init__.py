@@ -26,12 +26,10 @@ def create_app():
     import app.controllers.abitur_infController as abiturInf
     import app.controllers.newAbiturController as newabitur
     import app.controllers.areaController as ar
-    import app.controllers.statusController as st
     app.register_blueprint(abitur.module)
     app.register_blueprint(abiturInf.module)
     app.register_blueprint(ar.module)
     app.register_blueprint(newabitur.module)
-    app.register_blueprint(st.module)
 
     # route-маршруты
     @app.route('/')
@@ -40,22 +38,11 @@ def create_app():
 
     @app.route('/potential')
     def potential():
-        status = st.getStatus()
         return render_template("entrants/potential.html", title='Направления')
 
     @app.route('/danger')
     def danger():
         return render_template("entrants/danger/dangerZone.html", title='Опасность')
-
-    @app.route('/status')
-    def status():
-        status = st.getStatus()
-        return render_template("entrants/danger/editStatus.html", title='Редактирование статуса', status=status)
-
-    @app.route('/status', methods=['POST'])
-    def saveStatus():
-        st.saveStatus(request.form['name'])
-        return status()
 
     @app.route('/saveInf', methods=['POST'])
     def saveInf():
