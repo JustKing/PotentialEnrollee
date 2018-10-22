@@ -76,36 +76,31 @@ def create_app():
         inDbAbiturs = abiturient.getAbitur()
         session = vk.Session(
             access_token='069f2eb61cd727f589778c1a47b891e032a15f66f3c4deb7cfae817e5179325617fc6a2ce94668557c1dc')
-        api = vk.API(session, v='5.80', lang='ru')
+        api = vk.API(session, v='5.87', lang='ru')
         params['area'] = params['area'][1:-1]
         params['area'] = params['area'].split(', ')
         abits = []
         c = 0
-        countFind = len(params['area'])*params['count']
-        count = params['count'] - 1
+        count = 500/len(params['area'])
+        countFind = 500
         id = 0
-        while countFind>0:
-            print(countFind)
-            count=500/len(params['area'])
-            for city in params['area']:
+        while countFind > 0:
+            for cities in params['area']:
                 if c < 3:
                     c += 1
                 else:
                     time.sleep(1)
                     c = 1
                     print('sleep')
-                abiturs = api.users.search(fields='nickname, photo_max_orig, can_write_private_message, bdate',
-                                           count=count, sort=params['sort'], city=city,
-                                           age_from=params['age_from'], age_to=params['age_to'])
+                abiturs = api.users.search(fields='nickname, bdate, city, sex, personal')
                 for inDb in inDbAbiturs:
                     for (key, abitur) in abiturs.items():
-                        if (key == 'items'):
+                        if key == 'items':
                             for abit in abitur:
                                 if inDb[0] == abit['id']:
                                     abit['inDb']=1
-                print(abiturs)
                 for (key, abitur) in abiturs.items():
-                    if (key == 'items'):
+                    if key == 'items':
                         for abit in abitur:
                             if id != abit['id']:
                                 if 'inDb' in abit:
@@ -136,7 +131,7 @@ def create_app():
                                     onSave = abit
                                     id=abit['id']
                                     abiturient.saveAbitur(onSave)
-                                    countFind -= len(abits)
+            countFind -= count
         return find(abits, params)
 
     return app
