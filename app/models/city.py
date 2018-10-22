@@ -5,12 +5,11 @@ from sqlalchemy.schema import ForeignKey
 from app.database import db
 
 class City(db.Model):
-    #__tablename__ = 'cities'
-    __tablename__ = 'city'
+    __tablename__ = 'cities'
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100))
-    id_area = db.Column(db.Integer, ForeignKey('area.id'))
+    idArea = db.Column(db.Integer, ForeignKey('area.id'))
 
     def __str__(self):
         return self.name

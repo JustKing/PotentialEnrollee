@@ -4,11 +4,10 @@ from sqlalchemy.schema import ForeignKey
 
 from app.database import db
 
-class Abitur_inf(db.Model):
-    #__tablename__ = 'enroleeinformation'
-    __tablename__ = 'abitur_inf'
+class enrolleeInformation(db.Model):
+    __tablename__ = 'enroleeInformation'
 
-    abitur_id = db.Column(db.Integer, ForeignKey('abitur.id'), primary_key=True)
+    idEnrollee = db.Column(db.Integer, ForeignKey('abitur.id'), primary_key=True)
     political = db.Column(db.String(100))
     alcohol = db.Column(db.String(100))
     religion = db.Column(db.String(100))
@@ -21,11 +20,11 @@ class Abitur_inf(db.Model):
         return self.name
 
 
-@event.listens_for(Abitur_inf, 'before_insert')
+@event.listens_for(enrolleeInformation, 'before_insert')
 def event_before_insert(mapper, connection, target):
     target.slug = slugify(target.name)
 
 
-@event.listens_for(Abitur_inf, 'before_update')
+@event.listens_for(enrolleeInformation, 'before_update')
 def event_before_update(mapper, connection, target):
     target.slug = slugify(target.name)

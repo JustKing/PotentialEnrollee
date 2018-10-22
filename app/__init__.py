@@ -10,7 +10,7 @@ from app.database import db
 
 def create_app():
     app = Flask(__name__)
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:admin@localhost/ssomo'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:admin@localhost/abit'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.init_app(app)
     app.config.update(dict(
@@ -22,14 +22,14 @@ def create_app():
     ))
 
     # передаем управление маршрутами соответсвующему контроллеру
-    import app.controllers.abiturController as abitur
-    import app.controllers.abitur_infController as abiturInf
-    import app.controllers.newAbiturController as newabitur
+    import app.controllers.enrolleeController as enrollee
+    import app.controllers.enrolleeInformationController as enrolleeInformation
+    import app.controllers.abiturientController as abiturient
     import app.controllers.areaController as ar
-    app.register_blueprint(abitur.module)
-    app.register_blueprint(abiturInf.module)
+    app.register_blueprint(enrollee.module)
+    app.register_blueprint(enrolleeInformation.module)
     app.register_blueprint(ar.module)
-    app.register_blueprint(newabitur.module)
+    app.register_blueprint(abiturient.module)
 
     # route-маршруты
     @app.route('/')
@@ -40,13 +40,9 @@ def create_app():
     def potential():
         return render_template("entrants/potential.html", title='Направления')
 
-    @app.route('/danger')
-    def danger():
-        return render_template("entrants/danger/dangerZone.html", title='Опасность')
-
     @app.route('/saveInf', methods=['POST'])
     def saveInf():
-        abiturInf.saveInf(request.form['idAbitur'], request.form['status']);
+        enrolleeInformation.saveInf(request.form['idAbitur'], request.form['status']);
         return redirect(url_for('abitur.view_tec'))
 
     @app.route('/find')
@@ -77,7 +73,7 @@ def create_app():
             'age_to': request.form['age_to'],
             'area': request.form['area']
         }
-        inDbAbiturs = newabitur.getAbitur()
+        inDbAbiturs = abiturient.getAbitur()
         session = vk.Session(
             access_token='069f2eb61cd727f589778c1a47b891e032a15f66f3c4deb7cfae817e5179325617fc6a2ce94668557c1dc')
         api = vk.API(session, v='5.80', lang='ru')
@@ -90,7 +86,7 @@ def create_app():
         id = 0
         while countFind>0:
             print(countFind)
-            count+=1
+            count=500/len(params['area'])
             for city in params['area']:
                 if c < 3:
                     c += 1
@@ -139,7 +135,7 @@ def create_app():
                                     abits.append(abit)
                                     onSave = abit
                                     id=abit['id']
-                                    newabitur.saveAbitur(onSave)
+                                    abiturient.saveAbitur(onSave)
                                     countFind -= len(abits)
         return find(abits, params)
 

@@ -22,7 +22,7 @@
                     <label>Город
                         <select>
                             {% for city in cities %}
-                                <option value="{{ city.city_id }}">{{ city.city }}</option>
+                                <option value="{{ city.idCity }}">{{ city.city }}</option>
                             {% endfor %}
                         </select>
                     </label>
@@ -42,16 +42,16 @@
                 </tr>
                 </thead>
                 <tbody>
-                    {% for abitur in abiturs %}
-                    <tr data-game="c-{{ abitur.city_id }}" class="down">
+                    {% for enrollee in enrolles %}
+                    <tr data-game="c-{{ enrollee.idCity }}" class="down">
                         <td>
-                            <div>{{ abitur.last_name }} {{ abitur.first_name }} {{ abitur.middle_name }}</div>
+                            <div>{{ enrollee.lastName }} {{ enrollee.firstName }} {{ enrollee.middleName }}</div>
                         </td>
                         <td>
-                            <div>{{ abitur.city }}</div>
+                            <div>{{ enrollee.city }}</div>
                         </td>
                         <td>
-                            <div><a href="https://vk.com/id{{ abitur.id }}" target="_blank>">
+                            <div><a href="https://vk.com/id{{ enrollee.id }}" target="_blank>">
                                 <img src="{{ url_for('static', filename='img/icons/vk.png') }}" alt="vk" width="40px">
                             </a></div>
                         </td>

@@ -10,7 +10,6 @@ from sqlalchemy.exc import SQLAlchemyError
 
 from app.models.area import db, Area
 from app.models.city import City
-from app.models.place import Place
 
 module = Blueprint('area', __name__)
 
@@ -24,9 +23,8 @@ def getAreasWithCities():
     result = None
     try:
         areaWithCities = db.session.\
-            query(Area.title, Place.id).\
-            join(City, City.id_area == Area.id).\
-            join(Place, Place.id_city == City.id)
+            query(Area.title, City.id).\
+            join(City, City.idArea == Area.id)
     except SQLAlchemyError as e:
         log_error('Error while querying database', exc_info=e)
         flash('There was error while querying database', 'danger')
