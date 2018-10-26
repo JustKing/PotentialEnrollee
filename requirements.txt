@@ -1,0 +1,11 @@
+mysql-connector-python==8.0.12
+protobuf==3.6.1
+six==1.11.0
+SQLAlchemy==1.2.12
+Flask==1.0.2
+Flask-SQLAlchemy==2.3.2
+SQLAlchemy==1.2.9
+catboost=0.10.3
+psycopg2==2.7.5
+pycurl==7.43.0.2
+vk==2.0.2

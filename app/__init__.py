@@ -1,12 +1,13 @@
+import random
 import time
 
+import psycopg2
 import vk
 
 from flask import Flask, render_template, request, redirect, url_for
 from datetime import date
 
 from app.database import db
-
 
 def create_app():
     app = Flask(__name__)
@@ -22,12 +23,8 @@ def create_app():
     ))
 
     # передаем управление маршрутами соответсвующему контроллеру
-    import app.controllers.enrolleeController as enrollee
-    import app.controllers.enrolleeInformationController as enrolleeInformation
     import app.controllers.abiturientController as abiturient
     import app.controllers.areaController as ar
-    app.register_blueprint(enrollee.module)
-    app.register_blueprint(enrolleeInformation.module)
     app.register_blueprint(ar.module)
     app.register_blueprint(abiturient.module)
 
@@ -39,11 +36,6 @@ def create_app():
     @app.route('/potential')
     def potential():
         return render_template("entrants/potential.html", title='Направления')
-
-    @app.route('/saveInf', methods=['POST'])
-    def saveInf():
-        enrolleeInformation.saveInf(request.form['idAbitur'], request.form['status']);
-        return redirect(url_for('abitur.view_tec'))
 
     @app.route('/find')
     def find(abiturs=None, params=None):
@@ -74,6 +66,7 @@ def create_app():
             'area': request.form['area']
         }
         inDbAbiturs = abiturient.getAbitur()
+        print(inDbAbiturs)
         session = vk.Session(
             access_token='069f2eb61cd727f589778c1a47b891e032a15f66f3c4deb7cfae817e5179325617fc6a2ce94668557c1dc')
         api = vk.API(session, v='5.87', lang='ru')
@@ -81,57 +74,59 @@ def create_app():
         params['area'] = params['area'].split(', ')
         abits = []
         c = 0
-        count = 500/len(params['area'])
-        countFind = 500
+        count = 500 / len(params['area'])
         id = 0
-        while countFind > 0:
-            for cities in params['area']:
-                if c < 3:
-                    c += 1
-                else:
-                    time.sleep(1)
-                    c = 1
-                    print('sleep')
-                abiturs = api.users.search(fields='nickname, bdate, city, sex, personal')
-                for inDb in inDbAbiturs:
-                    for (key, abitur) in abiturs.items():
-                        if key == 'items':
-                            for abit in abitur:
-                                if inDb[0] == abit['id']:
-                                    abit['inDb']=1
+        for city in params['area']:
+            if c < 3:
+                c += 1
+            else:
+                time.sleep(1)
+                c = 1
+                print('sleep')
+            abiturs = api.users.search(fields='nickname, bdate, city, sex, personal', count=count, sort=params['sort'],
+                                        city=city, age_from=params['age_from'], age_to=params['age_to'],
+                                        offset=random.randint(0,500))
+
+            inDB = 0
+            print(abiturs)
+            for inDb in inDbAbiturs:
                 for (key, abitur) in abiturs.items():
                     if key == 'items':
                         for abit in abitur:
-                            if id != abit['id']:
-                                if 'inDb' in abit:
-                                    ''
+                            if inDb[0] == abit['id']:
+                                abit['inDb'] = 1
+            for (key, abitur) in abiturs.items():
+                if key == 'items':
+                    for abit in abitur:
+                        if id != abit['id']:
+                            if 'inDb' in abit:
+                                ''
+                            else:
+                                try:
+                                    abit['bdate']
+                                except KeyError:
+                                    abit['age'] = 'Не указано'
                                 else:
+                                    age = abit['bdate'].replace('.', ' ').split()
                                     try:
-                                        abit['bdate']
-                                    except KeyError:
+                                        age[2]
+                                    except IndexError:
                                         abit['age'] = 'Не указано'
                                     else:
-                                        age = abit['bdate'].replace('.', ' ').split()
-                                        try:
-                                            age[2]
-                                        except IndexError:
-                                            abit['age'] = 'Не указано'
+                                        year = date.today().year - int(age[2])
+                                        month = date.today().month - int(age[1])
+                                        day = date.today().day - int(age[0])
+                                        if (day <= 0 and month >= -1):
+                                            month += 1
+                                        if ((day == 0 and month == 0) or month > 0):
+                                            year = year
                                         else:
-                                            year = date.today().year - int(age[2])
-                                            month = date.today().month - int(age[1])
-                                            day = date.today().day - int(age[0])
-                                            if (day <= 0 and month >= -1):
-                                                month += 1
-                                            if ((day == 0 and month == 0) or month > 0):
-                                                year = year
-                                            else:
-                                                year -= 1
-                                            abit['age'] = year
-                                    abits.append(abit)
-                                    onSave = abit
-                                    id=abit['id']
-                                    abiturient.saveAbitur(onSave)
-            countFind -= count
+                                            year -= 1
+                                        abit['age'] = year
+                                abits.append(abit)
+                                onSave = abit
+                                id = abit['id']
+                                abiturient.saveAbitur(onSave, city)
         return find(abits, params)
 
     return app

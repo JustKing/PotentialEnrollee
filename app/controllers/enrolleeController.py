@@ -8,19 +8,21 @@ from flask import (
 
 from sqlalchemy.exc import SQLAlchemyError
 
+from app.models.city import City
 from app.models.enrollee import db, Enrollee
 
-module = Blueprint('enrollee', __name__)
+from app.models.abiturient import db, abiturient
 
+module = Blueprint('abiturient', __name__)
 
 # составляем массив городов
 def arCity(side):
     city = None
     try:
         city = db.session. \
-            query(Enrollee.idCity, Enrollee.city). \
-            distinct(Enrollee.city). \
-            filter(Enrollee.idSide == side)
+            query(abiturient.city, City.title). \
+            distinct(abiturient.city). \
+            filter(abiturient.idSide == side)
     except SQLAlchemyError as e:
         flash('There was error while querying database', 'danger')
         abort(500)
@@ -32,7 +34,7 @@ def arEnrollee(side):
     abitur = None
     try:
         abitur = db.session. \
-            query(Enrollee). \
+            query(abiturient). \
             filter(Enrollee.idSide == side)
     except SQLAlchemyError as e:
         flash('There was error while querying database', 'danger')

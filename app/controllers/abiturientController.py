@@ -12,6 +12,8 @@ from app.models.abiturient import db, abiturient
 
 import psycopg2
 
+from app.models.city import City
+
 module = Blueprint('abiturient', __name__)
 
 
@@ -142,98 +144,109 @@ def getTrainModel():
         return False
 
 
-def saveAbitur(abit, arKey=[], count=0):
-    print(abit)
+def saveAbitur(abit, city, arKey=[], count=0, a=0, p=0, s=0, pm=0, lm=0):
+    conn = psycopg2.connect(dbname='abit', password='admin', user='postgres')
+    cur = conn.cursor()
+    toBd = [0, 0, 0, 0, 0, 0, 0, '', '', '', '', 0, 0, ''];
     for (key, abitur) in abit.items():
         if key == 'personal':
-            for (k, ab) in abitur.items():
-                if k == 'religion':
-                    if ab == "" or ab == 0:
-                        abit['personal']['religion'] = 0
-                    elif ab == "Иудаизм":
-                        abit['personal']['religion'] = 1
-                    elif ab == "Православие":
-                        abit['personal']['religion'] = 2
-                    elif ab == "Католицизм":
-                        abit['personal']['religion'] = 3
-                    elif ab == "Протестантизм":
-                        abit['personal']['religion'] = 4
-                    elif ab == "Ислам":
-                        abit['personal']['religion'] = 5
-                    elif ab == "Буддизм":
-                        abit['personal']['religion'] = 6
-                    elif ab == "Конфуцианство":
-                        abit['personal']['religion'] = 7
-                    elif ab == "Светский гуманизм":
-                        abit['personal']['religion'] = 8
-                    elif ab == "Пастафарианство":
-                        abit['personal']['religion'] = 9
-                    else:
-                        abit['personal']['religion'] = 10
-                    for (ke, abitu) in abit.items():
-                        if key == 'personal':
-                            for (kee, abu) in abitu.items():
-                                if kee == 'alcohol':
-                                    count += 1
-                                if kee == 'political':
-                                    count += 1
-                                if kee == 'smoking':
-                                    count += 1
-                                if kee == 'people_main':
-                                    count += 1
-                                if kee == 'life_main':
-                                    count += 1
-                    print(count, 'COUNT PIZDETC NAXUY BLYAT')
-                # if count > 1:
-                #     if k != 'alcohol':
-                #         if k not in arKey:
-                #             abit['personal']['alcohol'] = 0
-                #     if k != 'political':
-                #         if k not in arKey:
-                #             abit['personal']['political'] = 0
-                #     if k != 'smoking':
-                #         if k not in arKey:
-                #             abit['personal']['smoking'] = 0
-                #     if k != 'people_main':
-                #         if k not in arKey:
-                #             abit['personal']['people_main'] = 0
-                #     if k != 'life_main':
-                #         if k not in arKey:
-                #             abit['personal']['life_main'] = 0
-                #     if k != 'religion':
-                #         if k not in arKey:
-                #             abit['personal']['religion'] = 0
-                #     arKey.append(k)
-                #
-                #     print(arKey)
-                    print(abit)
-                    toTrain = [[abit['personal']['political'], abit['personal']['alcohol'], abit['personal']['religion'],
-                                abit['personal']['smoking'], abit['personal']['life_main'],
-                                abit['personal']['people_main'], abit['sex']]]
-                    side = predictModel(toTrain)
+            for (kee, abu) in abitur.items():
+                toBd[1] = abit['sex']
+                toBd[7] = abit['first_name']
+                toBd[8] = abit['last_name']
+                toBd[9] = abit['nickname']
+                if kee == 'city':
+                    toBd[10] = abit['city']['id']
+                    toBd[13] = abit['city']['title']
+                else:
+                    toBd[10] = city
+                    cur.execute('SELECT title FROM cities WHERE id = %s', (city,))
+                    title = cur.fetchall()
+                    toBd[13] = title[0][0]
+                toBd[11] = abit['id']
+                toBd[12] = 0
+                if kee == 'religion':
+                    toBd[0] = abit['personal']['religion']
+                else:
+                    toBd[0] = ""
+                if kee == 'alcohol':
+                    toBd[2] = abit['personal']['alcohol']
+                    count += 1
+                    a = 1
+                if kee == 'political':
+                    toBd[3] = abit['personal']['political']
+                    count += 1
+                    p = 1
+                if kee == 'smoking':
+                    toBd[4] = abit['personal']['smoking']
+                    count += 1
+                    s = 1
+                if kee == 'people_main':
+                    toBd[5] = abit['personal']['people_main']
+                    count += 1
+                    pm = 1
+                if kee == 'life_main':
+                    toBd[6] = abit['personal']['life_main']
+                    count += 1
+                    lm = 1
+        if toBd[0] == "" or toBd[0] == 0:
+            toBd[0] = 0
+        elif toBd[0] == "Иудаизм":
+            toBd[0] = 1
+        elif toBd[0] == "Православие":
+            toBd[0] = 2
+        elif toBd[0] == "Католицизм":
+            toBd[0] = 3
+        elif toBd[0] == "Протестантизм":
+            toBd[0] = 4
+        elif toBd[0] == "Ислам":
+            toBd[0] = 5
+        elif toBd[0] == "Буддизм":
+            toBd[0] = 6
+        elif toBd[0] == "Конфуцианство":
+            toBd[0] = 7
+        elif toBd[0] == "Светский гуманизм":
+            toBd[0] = 8
+        elif toBd[0] == "Пастафарианство":
+            toBd[0] = 9
+        else:
+            toBd[0] = 10
+        if count >= 4:
+            if a == 0:
+                toBd[2] = 0
+            if p == 0:
+                toBd[3] = 0
+            if s == 0:
+                toBd[4] = 0
+            if pm == 0:
+                toBd[5] = 0
+            if lm == 0:
+                toBd[6] = 0
+            toTrain = [
+                [toBd[3], toBd[2], toBd[0],
+                 toBd[4], toBd[6],
+                 toBd[5], toBd[1]]]
+            toBd[12] = predictModel(toTrain)
 
-                    abitur = abiturient(id=abit['id'],
-                                        firstName=abit['first_name'],
-                                        lastName=abit['last_name'],
-                                        middleName=abit['nickname'],
-                                        political=abit['personal']['political'],
-                                        sex=abit['sex'],
-                                        alcohol=abit['personal']['alcohol'],
-                                        smoking=abit['personal']['smoking'],
-                                        people_main=abit['personal']['people_main'],
-                                        life_main=abit['personal']['life_main'],
-                                        religion=abit['personal']['religion'],
-                                        idSide=int(side)
-                                        )
-                    try:
-                        db.session.add(abitur)
-                        try:
-                            db.session.commit()
-                        except IntegrityError as e:
-                            return redirect(url_for('find'))
-                    except SQLAlchemyError as e:
-                        flash('There was error while querying database', 'danger')
-                        return redirect(url_for('find'))
+
+            cur.execute("""INSERT INTO abiturient(id,"firstName", "lastName", "middleName", 
+                                    political, sex, alcohol, smoking,people_main, life_main, religion, "idSide", "idCity", city)
+                                    VALUES ('{id}','{firstName}','{lastName}','{middleName}','{political}','{sex}',
+                                    '{alcohol}','{smoking}','{people_main}','{life_main}','{religion}','{idSide}',
+                                    '{idCity}','{city}')""". \
+                        format(id=toBd[11], firstName=toBd[7], lastName=toBd[8],
+                               middleName=toBd[9], political=toBd[3],
+                               sex=toBd[1], alcohol=toBd[2], smoking=toBd[4],
+                               people_main=toBd[5], life_main=toBd[6],
+                               religion=toBd[0], idSide=int(toBd[12]),
+                               idCity=toBd[10], city=toBd[13]))
+            conn.commit()
+            count = 0
+            a = 0
+            p = 0
+            s = 0
+            pm = 0
+            lm = 0
 
 
 def getAbitur():
@@ -245,3 +258,51 @@ def getAbitur():
         flash('There was error while querying database', 'danger')
         abort(500)
     return abiturs.all()
+
+# составляем массив городов
+def arCity(side):
+    city = None
+    try:
+        city = db.session. \
+            query(abiturient.city, abiturient.idCity). \
+            distinct(abiturient.city). \
+            filter(abiturient.idSide == side)
+    except SQLAlchemyError as e:
+        flash('There was error while querying database', 'danger')
+        abort(500)
+    return city
+
+
+# составляем массив абитуриентов
+def arEnrollee(side):
+    abitur = None
+    try:
+        abitur = db.session. \
+            query(abiturient). \
+            filter(abiturient.idSide == side)
+    except SQLAlchemyError as e:
+        flash('There was error while querying database', 'danger')
+        abort(500)
+    return abitur
+
+
+@module.route('/humanities', methods=['GET'])
+def view_hum():
+    enrollee = arEnrollee(1)
+    city = arCity(1)
+    return render_template('entrants/humanities.html', enrolles=enrollee, cities=city)
+
+
+@module.route('/technical', methods=['GET'])
+def view_tec():
+    enrollee = arEnrollee(2)
+    city = arCity(2)
+    return render_template('entrants/technical.html', enrolles=enrollee, cities=city)
+
+
+@module.route('/natural', methods=['GET'])
+def view_nat():
+    enrollee = arEnrollee(3)
+    city = arCity(3)
+
+    return render_template('entrants/natural.html', enrolles=enrollee, cities=city)

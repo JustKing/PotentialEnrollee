@@ -65,47 +65,9 @@
 {% endblock %}
 
 {% block modal %}
-    <div class="reveal" id="modal" data-reveal>
-        <h1>Редактировать</h1>
-        <p class="lead">Комментарий/статус</p>
-        <form method="POST" action="{{ url_for('abitur_inf.saveInf') }}">
-             <div class="grid-x grid-padding-x">
-                <div class="cell">
-                    <label>ID абитуриента
-                        <input id="idAbitur" name="idAbitur" hidden>
-                    </label>
-                </div>
-            </div>
-            <div class="grid-x grid-padding-x">
-                <div class="cell">
-                    <label>Статус
-                        <select name="status">
-                            {% for stat in status %}
-                                <option value="{{ stat['id'] }}">{{ stat['name'] }}</option>
-                            {% endfor %}
-                        </select>
-                    </label>
-                </div>
-            </div>
-            <div class="grid-x grid-padding-x">
-                <div class="cell">
-                    <label>Комментарий
-                        <textarea name="comment" id="comment"></textarea>
-                    </label>
-                </div>
-            </div>
-            <p>
-                <input type="submit" class="primary button expanded" value="Сохранить">
-            </p>
-        </form>
-    </div>
+
 {% endblock %}
 
 {% block scripts %}
-<script>
-    function transfer(idies) {
-        document.getElementById('idAbitur').value = idies;
-        console.log(idies);
-    }
-</script>
+
 {% endblock %}

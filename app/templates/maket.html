@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto">
 
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }} ">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/foundation.min.css') }} ">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/minF.css') }} ">
@@ -36,13 +37,7 @@
                     </div>
                     <div class="large-9 medium-9 small-9 columns">
                         <div class="main-title-text">Югорский государственный университет<br>Потенциальные абитуриенты<br>
-                            <div class="grid-container callout alert">
-                                <div class="grid-x grid-padding-x">
-                                    <div class="cell">
-                                        Тестовая версия
-                                    </div>
-                                </div>
-                            </div>
+
                         </div>
                         <hr class="main-hr">
                         <div class="main-module-name">
@@ -96,6 +91,23 @@
     <script src="{{ url_for('static', filename='js/vendor/foundation.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <script>
+      $(window).on('load', function () {
+        $preloader = $('.loaderArea'),
+          $loader = $preloader.find('.loader');
+        $loader.fadeOut();
+        $preloader.delay(350).fadeOut('slow');
+      });
+    </script>
+    <script>
+        $('#find').on('click', function(){
+            $preloader = $('.loaderArea'),
+          $loader = $preloader.find('.loader');
+        $loader.fadeOut();
+        $preloader.delay(350).fadeOut('slow');
+        });
+    </script>
     <script>
     $(function(){
         $('select').change(function(){
